@@ -1,0 +1,11 @@
+output {
+  if [type] == "syslog" {
+    opensearch {
+      hosts => "https://${opensearch-0_instance}:9200"
+      user => "admin"
+      password => "Test@123"
+      index => "kafka-syslog"
+      ssl_certificate_verification => false
+    }
+  }
+}

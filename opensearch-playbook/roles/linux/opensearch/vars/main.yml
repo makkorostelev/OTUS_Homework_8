@@ -1,0 +1,3 @@
+---
+# vars file for opensearch
+iac_enable: true

@@ -1,0 +1,9 @@
+[INPUT]
+    Name        tail
+    Path        /var/log/syslog
+
+[OUTPUT]
+    Name               kafka
+    Match              *
+    Brokers            ${kafka_instance}:9092
+    Topics             syslog

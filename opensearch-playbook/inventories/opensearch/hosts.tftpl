@@ -1,0 +1,29 @@
+opensearch-0 ip=${opensearch_instances[0]} ansible_host=${opensearch_instances[0]} roles=data,master
+opensearch-1 ip=${opensearch_instances[1]} ansible_host=${opensearch_instances[1]} roles=data,ingest
+opensearch-2 ip=${opensearch_instances[2]} ansible_host=${opensearch_instances[2]} roles=data,ingest
+
+opensearch-dashboard ansible_host=${opensearch_dashboard_instance}  ansible_user=ubuntu ip=0.0.0.0
+
+# List all the nodes in the os cluster
+[os-cluster]
+opensearch-0
+opensearch-1
+opensearch-2
+
+# List all the Master eligible nodes under this group
+[master]
+opensearch-0
+
+[dashboards]
+opensearch-dashboard
+
+
+# Connection settings
+[all:vars]
+ansible_connection='ssh'
+ansible_ssh_port='22'
+ansible_user='ubuntu'
+#ansible_ssh_pass='secretpassword'  # "sshpass" package is required for use "ansible_ssh_pass"
+ansible_ssh_private_key_file="${private_key_path}"
+#ansible_python_interpreter='/usr/bin/python3'  # is required for use python3
+ansible_ssh_common_args='-o ProxyCommand="ssh -p 22 -W %h:%p -q ubuntu@${admin_instance}"'
